@@ -1,13 +1,13 @@
 # System Programming 2020: BabyThread
 ## 0. The Goal
-1. Understand and simulate the concept of context switch.
-2. Understand and learn some system calls about signals.
-3. Understand and learn to use setjmp(), longjmp().
-4. Get points to pass this course :)
+0. Understand and simulate the concept of context switch.
+1. Understand and learn some system calls about signals.
+2. Understand and learn to use setjmp(), longjmp().
+3. Get points to pass this course :)
 
 ## 1. Problem Description
-In this assignment, you need to simulate a user-thread library by using longjmp(), setjmp(), etc. For simplicity, we use a function to represent a thread. In other words, you'll have to "context switch" between functions. To do this, you need to do non-local jumps between functions, which is arranged by a "scheduler": each time a function needs to "context switch" to another, it needs to jump back to "scheduler", and "scheduler" will schedule next function to be executed, thus jump to it. Since non-local jump won't store local variables, we need another structure for each function to store data needed for computing, called TCB_NODE. All the TCB_NODE will formulate a circular linked-list. As "scheduler" schedules functions, it also needs to make sure "Current" pointer points to correct TCB_NODE for functions to output correct result.  
-The "context switch" may occur in three different scenario: signal caught, timeslice reached, iteration count exceeded. we'll introduce the way to choose between three different scenarios in the execution part.  
+In this assignment, you need to simulate a user-thread library by using `longjmp()`, `setjmp()`, etc. For simplicity, we use a function to represent a thread. In other words, you'll have to "context switch" between functions. To do this, you need to do non-local jumps between functions, which is arranged by a `scheduler`: each time a function needs to "context switch" to another, it needs to jump back to `scheduler`, and `scheduler` will schedule next function to be executed, thus jump to it. Since non-local jump won't store local variables, we need another structure for each function to store data needed for computing,which is called `TCB_NODE`. All the `TCB_NODE` will formulate a circular linked-list. As `scheduler` schedules functions, it also needs to make sure `Current` pointer points to correct `TCB_NODE` for functions to output correct result.  
+The "context switch" may occur in three different scenario: signal caught, timeslice reached, or after each iteration. we'll introduce the way to choose between three different scenarios in the execution part.  
   
 You are expected to complete the following tasks:
 1. Complete the user-thread library "babythread.h".
@@ -16,15 +16,15 @@ You are expected to complete the following tasks:
 
 
 ## 2. main.c
-You DON'T have to change any code in main.c :) But for you to understand the program's workflow, we provided the source code of main.c. You should done all your homework WITHOUT changing any variables or insert any code segement.
+You **DON'T** have to change any code in main.c :) But for you to understand the program's workflow, we provided the source code of main.c. You should done all your homework **WITHOUT** changing any variables or insert any code segement.
 
 
 ## 2. BabyThread.h
-Please complete the half-done file BabyThread.h in this repository. Please view the file for features you need to implement.
+Please complete the half-done file babythread.h in this repository. Please view the file for features you need to implement.
 
 ## 3. Three Functions
 0. Functions are all in the form mentioned below. (So you should write your function by adding code at comment segements only.)
-1. Functions should atleast output a number during its runtime.
+1. Functions should atleast print a number during its timeslice.
 2. Functions will only context switch at the end of each iteration.
 3. Functions will teriminate on two condition: maxiter exceeded or produced required output.  
 4. The output of each iteration and the required output of each function are:  
@@ -54,7 +54,7 @@ void FunctionName(int thread_id, int init, int maxiter)
 ```
 ## . Execution
 
-```bash=
+```
 $ ./main {bi_init} {bi_maxiter} {bl_init} {bl_maxiter} {fi_init} {fi_maxiter} {timeslice} {switchmode}
 ```
 Below are argument explainations:
@@ -66,7 +66,7 @@ bl_maxiter = The max iteration for BlackholeNumber to process
 fi_init = The initial value pass into FibonacciSequence
 fi_maxiter = The max iteration for FibonacciSequence to process
 timeslice = time limit for a function to process until next "context switch"
-switchmode = 0 for "context switch" after each iteration; 1 for "context switch" due to signal caught or timeslice reached
+switchmode = 0 for "context switch" after each iteration; 1 for "context switch" due to signal caught and timeslice reached
 ```
 
 ## . Grading
@@ -79,16 +79,13 @@ TA will complie your with
 
 ## . Submission
 
+## 8. Reminder
+1. Plagiarism is **STRICTLY** prohibited.
+3. Your credits will be deducted 10% for each day delay. A late submission is better than absence.
+4. If you have any question, feel free to contact us via email ntucsiesp@gmail.com or come during TA hours.
+5. Please start your work as soon as possible, **DON'T** leave it until the last day!
 
-## 1. Problem Description
-In class, we've learn the importance of Due to the coronavirus, people are now strongly recommended to wear a mask in public. To make the process of ordering masks go smoothly, you are expected to implement a simplified mask pre-order system: `csieMask`.
 
-The `csieMask` system is composed of read and write servers, both can access a file `preorderRecord` that records infomation of consumer's order. When a server gets a request from clients, it will response according to the content of the file. A read server can tell the client how many masks can be ordered. A write server can modify the file to record the orders.
-
-You are expected to complete the following tasks:
-1. Implement the servers. The provided sample source code `server.c` can be compiled as simple read/write servers so you don't have to code them from stretch. Details will be described in the later part.
-2. Modify the code so the servers will not be blocked by a single request, but can deal with many requests at the same time. You might want to use `select()` to implement the multiplexing system.
-3. Guarantee the correctness of file content when it is being modified. You might want to use file lock to protect the file.
 
 ## 2. Running the Sample Servers
 
@@ -215,8 +212,4 @@ You can submit other .c, .h files, as long as they can be compiled to two execut
 
 You are encouraged to submit a readme.txt, where you can briefly state how do you finish your program and something valuable you want to explain. 
 
-## 8. Reminder
-1. Plagiarism is STRICTLY prohibited.
-3. Your credits will be deducted 10% for each day delay. A late submission is better than absence.
-4. If you have any question, feel free to contact us via email ntucsiesp@gmail.com or come during TA hours.
-5. Please start your work as soon as possible, do NOT leave it until the last day!
+
