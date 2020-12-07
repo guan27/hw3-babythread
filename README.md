@@ -1,4 +1,4 @@
-# System Programming 2020: BabyOS
+# System Programming 2020: BabyThread
 ## 0. The Goal
 1. Understand and simulate the concept of context switch.
 2. Understand and learn some system calls about signals.
@@ -6,13 +6,17 @@
 4. Get points to pass this course :)
 
 ## 1. Problem Description
-
+In this assignment, you need to simulate a user-thread library by using longjmp(), setjmp(), etc. For simplicity, we use a function to repersent a thread. In other words, you,ll have to "context switch" between functions. The "context switch" may occur in three different scenario: signal caught, timeslice reached, program finished a loop. we'll introduce the way to choose between three different scenarios later.
 
 You are expected to complete the following tasks:
-1. Complete the threading library "babythread.h".
+1. Complete the user-thread library "babythread.h".
 2. Implement three functions: BlackholeNumber, BinarySearch, FibonacciSequence.
+## 2. BabyThread.h
+Please complete the half-done file BabyThread.h in this repository. 
 
-## . Something about thread
+## 3. Three Functions
+The function of Baby 
+The Function
 ```cpp=
 #include  <stdio.h>
 #include  <stdlib.h>
