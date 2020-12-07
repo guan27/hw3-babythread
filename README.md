@@ -6,10 +6,9 @@
 4. Get points to pass this course :)
 
 ## 1. Problem Description
-In this assignment, you need to simulate a user-thread library by using longjmp(), setjmp(), etc. For simplicity, we use a function to represent a thread. In other words, you'll have to "context switch" between functions. To do this, you need to do non-local jumps between functions, which is arranged by a "scheduler": each time a function needs to "context switch" to another, it needs to jump back to "scheduler", and "scheduler" will schedule next function to be executed, thus jump to it. Since non-local jump won't store local variables, we need another structure for each function to store data needed for computing, called TCB_NODE. All the TCB_NODE will formulate a circular linked-list. As "scheduler" schedules functions, it also needs to make sure "Current" pointer points to correct TCB_NODE for functions to output correct result.
-
-the correctness of the program, scheduler must change   The "context switch" may occur in three different scenario: signal caught, timeslice reached, iteration count. we'll introduce the way to choose between three different scenarios later.
-
+In this assignment, you need to simulate a user-thread library by using longjmp(), setjmp(), etc. For simplicity, we use a function to represent a thread. In other words, you'll have to "context switch" between functions. To do this, you need to do non-local jumps between functions, which is arranged by a "scheduler": each time a function needs to "context switch" to another, it needs to jump back to "scheduler", and "scheduler" will schedule next function to be executed, thus jump to it. Since non-local jump won't store local variables, we need another structure for each function to store data needed for computing, called TCB_NODE. All the TCB_NODE will formulate a circular linked-list. As "scheduler" schedules functions, it also needs to make sure "Current" pointer points to correct TCB_NODE for functions to output correct result.  
+The "context switch" may occur in three different scenario: signal caught, timeslice reached, iteration count exceeded. we'll introduce the way to choose between three different scenarios in the execution part.  
+  
 You are expected to complete the following tasks:
 1. Complete the user-thread library "babythread.h".
 2. Implement three functions: BlackholeNumber, BinarySearch, FibonacciSequence.
@@ -24,13 +23,16 @@ You DON'T have to change any code in main.c :) But for you to understand the pro
 Please complete the half-done file BabyThread.h in this repository. Please view the file for features you need to implement.
 
 ## 3. Three Functions
-The function of BlackholeNumber, BinarySearch, FibonacciSequence are listed below:
-BlackholeNumber: input an integer between 100-999 ,then in each iteration, compute numbers by rules mentioned in the URL until it becomes 495.
-https://zh.wikipedia.org/wiki/黑洞數
-BinarySearch: input an integer between 0-100, then start from 50, conduct binary search until it finds the integer.
-FibonacciSequence: start from 1,  
-The functions should all be in the form mentioned below:
-```cpp=
+0. Functions are all in the form mentioned below. (So you should write your function by adding code at comment segements only.)
+1. Functions should atleast output a number during its runtime.
+2. Functions will only context switch at the end of each iteration.
+3. Functions will teriminate on two condition: maxiter exceeded or produced required output.  
+4. The output of each iteration and the required output of each function are:  
+BlackholeNumber: start from initial value, update the value by URL mentioned below then print. The required output is 495.  
+                 (https://zh.wikipedia.org/wiki/黑洞數)  
+BinarySearch: start from 50, conduct binary search between range(0,100). You only have to do one step of binary search in each iteration. The required output is the initial value send to this function.  
+FibonacciSequence: print one entry of the Fibonacci Sequence (1,2,3,5,8,13,...) in each iteration. There's no required output for this function.  
+```
 void FunctionName(int thread_id, int init, int maxiter)
 {
 	ThreadInit(thread_id, init, maxiter);
@@ -50,6 +52,23 @@ void FunctionName(int thread_id, int init, int maxiter)
 }
 
 ```
+## . Execution
+
+```bash=
+$ ./main {bi_init} {bi_maxiter} {bl_init} {bl_maxiter} {fi_init} {fi_maxiter} {timeslice} {switchmode}
+```
+Below are argument explainations:
+```
+bi_init = The initial value pass into BinarySearch
+bi_maxiter = The max iteration for BinarySearch to process
+bl_init = The initial value pass into BlackholeNumber
+bl_maxiter = The max iteration for BlackholeNumber to process
+fi_init = The initial value pass into FibonacciSequence
+fi_maxiter = The max iteration for FibonacciSequence to process
+timeslice = time limit for a function to process until next "context switch"
+switchmode = 0 for "context switch" after each iteration; 1 for "context switch" due to signal caught or timeslice reached
+```
+
 ## . Grading
 TA will complie your with
 1. (2 pt)Your thread library supports context switch by iteration count.
