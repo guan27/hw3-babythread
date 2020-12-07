@@ -6,13 +6,22 @@
 4. Get points to pass this course :)
 
 ## 1. Problem Description
-In this assignment, you need to simulate a user-thread library by using longjmp(), setjmp(), etc. For simplicity, we use a function to repersent a thread. In other words, you,ll have to "context switch" between functions. The "context switch" may occur in three different scenario: signal caught, timeslice reached, program finished a loop. we'll introduce the way to choose between three different scenarios later.
+In this assignment, you need to simulate a user-thread library by using longjmp(), setjmp(), etc. For simplicity, we use a function to represent a thread. In other words, you'll have to "context switch" between functions. To do this, you need to do non-local jumps between functions, which is arranged by a "scheduler": each time a function needs to "context switch" to another, it needs to jump back to "scheduler", and "scheduler" will schedule next function to be executed, thus jump to it. Since non-local jump won't store local variables, we need another structure for each function to store data needed for computing, called TCB_NODE. All the TCB_NODE will formulate a circular linked-list. As "scheduler" schedules functions, it also needs to make sure "Current" pointer points to correct TCB_NODE for functions to output correct result.
+
+the correctness of the program, scheduler must change   The "context switch" may occur in three different scenario: signal caught, timeslice reached, iteration count. we'll introduce the way to choose between three different scenarios later.
 
 You are expected to complete the following tasks:
 1. Complete the user-thread library "babythread.h".
 2. Implement three functions: BlackholeNumber, BinarySearch, FibonacciSequence.
+## 2. IMPORTANT STUFF
+
+
+## 2. main.c
+You DON'T have to change any code in main.c :) But for you to understand the program's workflow, we provided the source code of main.c. You should done all your homework WITHOUT changing any variables or insert any code segement.
+
+
 ## 2. BabyThread.h
-Please complete the half-done file BabyThread.h in this repository. 
+Please complete the half-done file BabyThread.h in this repository. Please view the file for features you need to implement.
 
 ## 3. Three Functions
 The function of BlackholeNumber, BinarySearch, FibonacciSequence are listed below:
@@ -20,9 +29,9 @@ BlackholeNumber: input an integer between 100-999 ,then in each iteration, compu
 https://zh.wikipedia.org/wiki/黑洞數
 BinarySearch: input an integer between 0-100, then start from 50, conduct binary search until it finds the integer.
 FibonacciSequence: start from 1,  
-The functions should all be in the form mentioned below
+The functions should all be in the form mentioned below:
 ```cpp=
-void FunctionName(int thread_id, int init,int maxiter)
+void FunctionName(int thread_id, int init, int maxiter)
 {
 	ThreadInit(thread_id, init, maxiter);
 	/*
