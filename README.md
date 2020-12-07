@@ -15,143 +15,29 @@ You are expected to complete the following tasks:
 Please complete the half-done file BabyThread.h in this repository. 
 
 ## 3. Three Functions
-The function of Baby 
-The Function
+The function of BlackholeNumber, BinarySearch, FibonacciSequence are listed below:
+BlackholeNumber: input an integer between 100-999 ,then in each iteration, compute numbers by rules mentioned in the URL until it becomes 495.
+https://zh.wikipedia.org/wiki/黑洞數
+BinarySearch: input an integer between 0-100, then start from 50, conduct binary search until it finds the integer.
+FibonacciSequence: start from 1,  
+The functions should all be in the form mentioned below
 ```cpp=
-#include  <stdio.h>
-#include  <stdlib.h>
-#include  <setjmp.h>
-#include  <signal.h>
-
-extern int timeslice;
-extern int switchmode;
-
-typedef struct TCB_NODE *TCB_ptr;
-typedef struct TCB_NODE
+void FunctionName(int thread_id, int init,int maxiter)
 {
-	jmp_buf  Environment;
-	int      Thread_id;
-	TCB_ptr  Next;
-	TCB_ptr  Prev;
-	int i,N;
-	int x,y,z;
-
-}TCB;
-
-jmp_buf MAIN;
-jmp_buf SCHEDULER;
-
-TCB_ptr Head;
-TCB_ptr Current;
-TCB_ptr Work;
-
-struct sigaction act;
-sigset_t base_mask, waiting_mask;
-void sighandler(int signo)
-{
-   sigprocmask(SIG_SETMASK, &base_mask, NULL);
-   if (signo == SIGTSTP)
-   {
-		printf("TSTP\n");
-		int remainder = alarm(0);
-		printf("remainder %d\n", remainder);
-		if (remainder == 0)
-			alarm(1);
-		else
-			alarm(remainder);
-   }
-   if (signo == SIGALRM)
-   {
-		printf("ALRM\n");
-		printf("timeslice%d\n", timeslice);
-		alarm(timeslice);
-   }
-
-   longjmp(SCHEDULER,1);
-
-   
-}
-
-
-
-
-
-
-
-#define ThreadCreate(function,thread_id,init,maxiter)  \
-{                                                      \
-	if(setjmp(MAIN) == 0)                              \
-		(function)(thread_id,init,maxiter);            \
-}
-
-#define ThreadInit(thread_id,init,maxiter)     \
-{                                              \
-	Work = (TCB_ptr) malloc(sizeof(TCB));      \
-	Work->Thread_id = thread_id;               \
-	if (Head == NULL)                          \
-		Head = Work;                           \
-	else                                       \
-	{                                          \
-		Current->Next = Work;                  \
-		Work->Prev = Current;                  \
-	}                                          \
-	Work->Next = Head;                         \
-	Head->Prev = Work;                         \
-	Current = Work;                            \
-	Current->N = maxiter;                      \
-	Current->x = init;                         \
-	if (setjmp(Work->Environment) == 0)        \
-		longjmp(MAIN,1);                       \
-}
-
-#define ThreadJoin()                            \
-{                                               \
-	if (setjmp(Current->Environment) == 0)      \
-		longjmp(SCHEDULER, 2);                  \
-}
-
-#define ThreadYield()                                                                          \
-{                                                                                              \
-	if(switchmode==0)                                                                          \
-	{                                                                                          \
-		if (setjmp(Current->Environment) == 0)                                                 \
-			longjmp(SCHEDULER, 1);                                                             \
-	}                                                                                          \
-	else                                                                                       \
-	{                                                                                          \
-		sigpending(&waiting_mask);                                                             \
-		if (sigismember(&waiting_mask, SIGTSTP) || sigismember(&waiting_mask, SIGALRM) )       \
-		{                                                                                      \
-			if (setjmp(Current->Environment) == 0)                                             \
-				sigprocmask(SIG_UNBLOCK, &base_mask, NULL);                                    \
-		}                                                                                      \
-	}                                                                                          \
-}
-
-
-
-void Scheduler()
-{
-	
-	int state = setjmp(SCHEDULER);
-	printf("state %d\n", state);
-	if(state == 0)
-		longjmp(MAIN, 1);
-	else if(state == 2)
+	ThreadInit(thread_id, init, maxiter);
+	/*
+	Some initilization if needed.
+	*/
+	for (Current->i = 0; Current->i < Current->N; ++Current->i)
 	{
-		printf("stop\n");
-		if(Current == Current->Next)
-		{
-			printf("end\n");
-			longjmp(MAIN, 2);
-		}
-		Current->Prev->Next = Current->Next;
-		Current->Next->Prev = Current->Prev;
-
+		sleep(1);
+		/*
+		Do the computation, then output result.
+		Call ThreadJoin() if the work is done.
+		*/	
+		ThreadYield();
 	}
-	Current = Current->Next;
-	printf("to_func%d\n", Current->Thread_id);
-	longjmp(Current->Environment, 1);
+	ThreadJoin()
 }
 
 ```
