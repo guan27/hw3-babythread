@@ -1,19 +1,162 @@
 # System Programming 2020: BabyOS
 ## 0. The Goal
 1. Understand and simulate the concept of context switch.
-2. Understand and learn some system calls about signal.
+2. Understand and learn some system calls about signals.
 3. Understand and learn to use setjmp(), longjmp().
 4. Get points to pass this course :)
 
 ## 1. Problem Description
- 
+
+
+You are expected to complete the following tasks:
+1. Complete the threading library "babythread.h".
+2. Implement three functions: BlackholeNumber, BinarySearch, FibonacciSequence.
+
 ## . Something about thread
+```cpp=
+#include  <stdio.h>
+#include  <stdlib.h>
+#include  <setjmp.h>
+#include  <signal.h>
+
+extern int timeslice;
+extern int switchmode;
+
+typedef struct TCB_NODE *TCB_ptr;
+typedef struct TCB_NODE
+{
+	jmp_buf  Environment;
+	int      Thread_id;
+	TCB_ptr  Next;
+	TCB_ptr  Prev;
+	int i,N;
+	int x,y,z;
+
+}TCB;
+
+jmp_buf MAIN;
+jmp_buf SCHEDULER;
+
+TCB_ptr Head;
+TCB_ptr Current;
+TCB_ptr Work;
+
+struct sigaction act;
+sigset_t base_mask, waiting_mask;
+void sighandler(int signo)
+{
+   sigprocmask(SIG_SETMASK, &base_mask, NULL);
+   if (signo == SIGTSTP)
+   {
+		printf("TSTP\n");
+		int remainder = alarm(0);
+		printf("remainder %d\n", remainder);
+		if (remainder == 0)
+			alarm(1);
+		else
+			alarm(remainder);
+   }
+   if (signo == SIGALRM)
+   {
+		printf("ALRM\n");
+		printf("timeslice%d\n", timeslice);
+		alarm(timeslice);
+   }
+
+   longjmp(SCHEDULER,1);
+
+   
+}
+
+
+
+
+
+
+
+#define ThreadCreate(function,thread_id,init,maxiter)  \
+{                                                      \
+	if(setjmp(MAIN) == 0)                              \
+		(function)(thread_id,init,maxiter);            \
+}
+
+#define ThreadInit(thread_id,init,maxiter)     \
+{                                              \
+	Work = (TCB_ptr) malloc(sizeof(TCB));      \
+	Work->Thread_id = thread_id;               \
+	if (Head == NULL)                          \
+		Head = Work;                           \
+	else                                       \
+	{                                          \
+		Current->Next = Work;                  \
+		Work->Prev = Current;                  \
+	}                                          \
+	Work->Next = Head;                         \
+	Head->Prev = Work;                         \
+	Current = Work;                            \
+	Current->N = maxiter;                      \
+	Current->x = init;                         \
+	if (setjmp(Work->Environment) == 0)        \
+		longjmp(MAIN,1);                       \
+}
+
+#define ThreadJoin()                            \
+{                                               \
+	if (setjmp(Current->Environment) == 0)      \
+		longjmp(SCHEDULER, 2);                  \
+}
+
+#define ThreadYield()                                                                          \
+{                                                                                              \
+	if(switchmode==0)                                                                          \
+	{                                                                                          \
+		if (setjmp(Current->Environment) == 0)                                                 \
+			longjmp(SCHEDULER, 1);                                                             \
+	}                                                                                          \
+	else                                                                                       \
+	{                                                                                          \
+		sigpending(&waiting_mask);                                                             \
+		if (sigismember(&waiting_mask, SIGTSTP) || sigismember(&waiting_mask, SIGALRM) )       \
+		{                                                                                      \
+			if (setjmp(Current->Environment) == 0)                                             \
+				sigprocmask(SIG_UNBLOCK, &base_mask, NULL);                                    \
+		}                                                                                      \
+	}                                                                                          \
+}
+
+
+
+void Scheduler()
+{
+	
+	int state = setjmp(SCHEDULER);
+	printf("state %d\n", state);
+	if(state == 0)
+		longjmp(MAIN, 1);
+	else if(state == 2)
+	{
+		printf("stop\n");
+		if(Current == Current->Next)
+		{
+			printf("end\n");
+			longjmp(MAIN, 2);
+		}
+		Current->Prev->Next = Current->Next;
+		Current->Next->Prev = Current->Prev;
+
+	}
+	Current = Current->Next;
+	printf("to_func%d\n", Current->Thread_id);
+	longjmp(Current->Environment, 1);
+}
+
+```
 ## . Grading
 TA will complie your with
 1. (2 pt)Your thread library supports context switch by iteration count.
 2. (2 pt)Your thread library supports context switch by time slice.
 3. (2 pt)Your thread library supports context switch by signal caught.
-4. (2 pt)You write functions (BlackholeNumber, FibonacciSequence)on our own.
+4. (2 pt)You write functions (BlackholeNumber, BinarySearch, FibonacciSequence)on your own.
 
 
 ## . Submission
