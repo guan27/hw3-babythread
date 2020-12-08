@@ -21,21 +21,17 @@ You **DON'T** have to change any code in `main.c` :) But for you to understand t
 `threadutils.h` defines the structure of `TCB_NODE`, and all the global variables you needed for implementing `scheduler.c` and `threefunctions.c`, but `threadutils.h` is lack of some macro's implementation. You job is to finish them. For more information, please check the comments in `threadutils.h`.
 
 ## 4. scheduler.c
-You need to implement `sighandler()` and `scheduler()` in `scheduler.c`, where `sighandler()` is "the sighandler" required in `sigaction()` system call and `scheduler()` is introduced in **1. Problem Description**. For more implementation details, please check the comments in `scheduler.c`.  
-
-"Context switch" may occur in two different scenarios
-0.
-1. 
+You need to implement `sighandler()` and `scheduler()` in `scheduler.c`, where `sighandler()` is "the sighandler" required in `sigaction()` system call and `scheduler()` is introduced in **1. Problem Description**. For more information, please check the comments in `scheduler.c`.  
 
 Here we introduce the rule of "context switch" in detail:
 0. "Context switch" means that function jumps back to `scheduler()`, `scheduler()` schedules next function in the circular linked-list to be executed. 
 1. "Context switch" may occur in two different scenarios:
-	- After each iteration
-	- Signal caught(only consider SIGTSTP), timeslice reached
-1. If you're doing "context switch" after each iteration, you shuold change the function you're executing at the end of each iteration.
-2. If you're doing "context switch" on signal caught or timeslice reached, you should check pending signals at the end of each iteration. Once you have pending signal(s) you should do "context switch".
-3. Timeslice is set by `alarm(t)` where `t` is the timeslice length.
-4. If multiple signals is pending after one iteration, "context switch" should execute based on `SIGTSTP` first. 
+	- After each iteration in a function (see **5. threefunctions.c**)
+	- Signal caught(only consider `SIGTSTP`), timeslice reached
+2. If you're doing "context switch" after each iteration, you shuold change the function you're executing at the end of each iteration.
+3. If you're doing "context switch" on signal caught or timeslice reached, you should check pending signals at the end of each iteration. Once you have pending signal(s) you should do "context switch".
+4. Timeslice is set by `alarm(t)` where `t` is the timeslice length.
+5. If multiple signals is pending after one iteration, "context switch" should execute based on `SIGTSTP` first. 
 
 ## 5. threefunctions.c
 0. FunctionName refers to BlackholeNumber, BinarySearch,or FibonacciSequence.
