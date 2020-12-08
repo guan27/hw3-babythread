@@ -1,4 +1,4 @@
-# System Programming 2020: ZaThread
+# System Programming 2020: HW3-PseudoThread
 ## 0. The Goal
 0. Understand and simulate the concept of context switch.
 1. Understand and learn some system calls about signals.
@@ -86,9 +86,88 @@ fi_maxiter = The max iteration for FibonacciSequence to process
 timeslice = time limit for a function to process until next "context switch"
 switchmode = 0 for "context switch" after each iteration; 1 for "context switch" due to signal caught and timeslice reached
 ```
-Sample execution
+Sample execution 1
 ```
+$ ./main 27 10 127 10 1 10 3 0
+BinarySearch: 50
+BlackholeNumber: 594
+FibonacciSequence: 1
+BinarySearch: 25
+BlackholeNumber: 495
+FibonacciSequence: 2
+BinarySearch: 37
+FibonacciSequence: 3
+BinarySearch: 31
+FibonacciSequence: 5
+BinarySearch: 28
+FibonacciSequence: 8
+BinarySearch: 26
+FibonacciSequence: 13
+BinarySearch: 27
+FibonacciSequence: 21
+FibonacciSequence: 34
+FibonacciSequence: 55
+FibonacciSequence: 89
 ```
+Sample execution 2
+```
+$ ./main 55 10 712 10 1 10 3 1
+BinarySearch: 50
+BinarySearch: 75
+BinarySearch: 62
+ALRM signal!
+BlackholeNumber: 495
+FibonacciSequence: 1
+FibonacciSequence: 2
+ALRM signal!
+BinarySearch: 56
+BinarySearch: 53
+BinarySearch: 54
+ALRM signal!
+FibonacciSequence: 3
+FibonacciSequence: 5
+FibonacciSequence: 8
+ALRM signal!
+BinarySearch: 55
+FibonacciSequence: 13
+FibonacciSequence: 21
+ALRM signal!
+FibonacciSequence: 34
+FibonacciSequence: 55
+FibonacciSequence: 89
+ALRM signal!
+```
+sample execution 3
+```
+$ ./main 55 10 712 10 1 10 3 1
+BinarySearch: 50
+BinarySearch: 75
+BinarySearch: 62
+^ZTSTP signal!
+BlackholeNumber: 495
+FibonacciSequence: 1
+ALRM signal!
+BinarySearch: 56
+BinarySearch: 53
+BinarySearch: 54
+ALRM signal!
+FibonacciSequence: 2
+^ZTSTP signal!
+BinarySearch: 55
+FibonacciSequence: 3
+ALRM signal!
+FibonacciSequence: 5
+FibonacciSequence: 8
+^ZTSTP signal!
+FibonacciSequence: 13
+ALRM signal!
+FibonacciSequence: 21
+FibonacciSequence: 34
+FibonacciSequence: 55
+ALRM signal!
+FibonacciSequence: 89
+```
+Note: ^Z is where `SIGTSTP` delivered to process, it is not output by process itself.
 
 ## 7. Grading
 0. (1 pt)Your `threadutils.h` and `scheduler.c` supports context switch after each iteration.
