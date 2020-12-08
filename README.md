@@ -11,7 +11,7 @@ In this assignment, you need to simulate a user-thread library by using `longjmp
 The "context switch" mentioned above may occur in two different scenarios (We'll introduce the way to choose between them in **4. scheduler.c** and **6. Execution**.):
 
 0. After each iteration
-1. Signal caught, timeslice reached
+1. Signal caught(only consider SIGTSTP), timeslice reached
 
 
 You are expected to complete the following tasks:
@@ -104,7 +104,7 @@ For all tasks, your code will be complied by `MakeFile` in this repostiory.
 - In 1. 2. 3., your `threadutils.h` and `scheduler.c` will complied with TA's `main.c` and `threefunctions.c`.
 - In 4., your `threefunctions.c` will complied with TA's `main.c` and `threadutils.h` and `scheduler.c`.
 - In 5., your `threadutils.h`, `scheduler.c` and `threefunctions.c` will be compiled with TA's `main.c`.
-- TA's `threefunctions.c` is pre-compiled as `threefunctions.o` in this repository, use it well. **BUT**, this **DOESN'T** imply that you will get full credit of 0. 1. 2. if you works fine with TA's `threefunctions.o`. (why?)
+- TA's `threefunctions.c` is pre-compiled as `threefunctions.o` in this repository, use it well. **BUT**, this **DOESN'T** imply that you will get full credit of 0. 1. 2. if your code works fine with TA's `threefunctions.o`. (why?)
 
 ## 8. testdata.txt
 Each line in `testdata.txt` is a command line input in the form states in **6. Execution**.
@@ -115,7 +115,7 @@ Your assignment should be submitted to github before deadline. The submisstion s
 0. `threadutils.h`
 1. `scheduler.c`
 2. `threefunctions.c`  
-Your repository may contain other files, but TA will **ONLY** score your homework based on two files mentioned above, please make sure that you correctly named your code.
+Your repository may contain other files, but TA will **ONLY** score your homework based on three files mentioned above, please make sure that you correctly named your code.
 
 ## 10. Reminder
 0. Plagiarism is **STRICTLY** prohibited.
