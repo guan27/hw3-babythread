@@ -63,7 +63,6 @@ void FunctionName(int thread_id, int init, int maxiter)
 	}
 	ThreadJoin()
 }
-
 ```
 In each timeslice, functions should output its current result by:
 ```
@@ -188,6 +187,7 @@ FYI there will be no private dataset in this homework, so all your gradings will
 
 ## 9. Submission
 Your assignment should be submitted to github before deadline. The submission should include three files:
+
 0. `threadutils.h`
 1. `scheduler.c`
 2. `threefunctions.c`  
