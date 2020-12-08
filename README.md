@@ -8,12 +8,6 @@
 ## 1. Problem Description
 In this assignment, you need to simulate a user-thread library by using `longjmp()`, `setjmp()`, etc. For simplicity, we use a function to represent a thread. In other words, you'll have to "context switch" between functions. To do this, you need to do non-local jumps between functions, which is arranged by a `scheduler()`: each time a function needs to "context switch" to another, it needs to jump back to `scheduler()`, and `scheduler()` will schedule next function to be executed, thus jump to it. Since non-local jump won't store local variables, we define a data structure for each function to store data needed for computing, which is called `TCB_NODE`. All the `TCB_NODE`s will formulate a circular linked-list. As `scheduler()` schedules functions, it also needs to make sure `Current` pointer points to correct `TCB_NODE` for functions to output correct result.
 
-The "context switch" mentioned above may occur in two different scenarios (We'll introduce the way to choose between them in **4. scheduler.c** and **6. Execution**.):
-
-0. After each iteration
-1. Signal caught(only consider SIGTSTP), timeslice reached
-
-
 You are expected to complete the following tasks:
   
 0. Complete the user-thread library `threadutils.h`.
@@ -27,11 +21,17 @@ You **DON'T** have to change any code in `main.c` :) But for you to understand t
 `threadutils.h` defines the structure of `TCB_NODE`, and all the global variables you needed for implementing `scheduler.c` and `threefunctions.c`, but `threadutils.h` is lack of some macro's implementation. You job is to finish them. For more information, please check the comments in `threadutils.h`.
 
 ## 4. scheduler.c
-You need to implement `sighandler()` and `scheduler()` in `scheduler.c`, where `sighandler()` is "the sighandler" required in `sigaction()` system call and `scheduler()` is introduced in **1. Problem Description**. For more information, please check the comments in `scheduler.c`.  
+You need to implement `sighandler()` and `scheduler()` in `scheduler.c`, where `sighandler()` is "the sighandler" required in `sigaction()` system call and `scheduler()` is introduced in **1. Problem Description**. For more implementation details, please check the comments in `scheduler.c`.  
+
+"Context switch" may occur in two different scenarios
+0.
+1. 
 
 Here we introduce the rule of "context switch" in detail:
-
 0. "Context switch" means that function jumps back to `scheduler()`, `scheduler()` schedules next function in the circular linked-list to be executed. 
+1. "Context switch" may occur in two different scenarios:
+	- After each iteration
+	- Signal caught(only consider SIGTSTP), timeslice reached
 1. If you're doing "context switch" after each iteration, you shuold change the function you're executing at the end of each iteration.
 2. If you're doing "context switch" on signal caught or timeslice reached, you should check pending signals at the end of each iteration. Once you have pending signal(s) you should do "context switch".
 3. Timeslice is set by `alarm(t)` where `t` is the timeslice length.
