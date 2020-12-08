@@ -59,11 +59,11 @@ void FunctionName(int thread_id, int init, int maxiter)
 		sleep(1);
 		/*
 		Do the computation, then output result.
-		Call ThreadJoin() if the work is done.
+		Call ThreadExit() if the work is done.
 		*/	
 		ThreadYield();
 	}
-	ThreadJoin()
+	ThreadExit()
 }
 ```
 In each timeslice, functions should output its current result by:
