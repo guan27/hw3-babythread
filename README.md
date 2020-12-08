@@ -1,4 +1,6 @@
 # System Programming 2020: HW3-PseudoThread
+Due on Dec.27 23:00
+
 ## 0. The Goal
 0. Understand and simulate the concept of context switch.
 1. Understand and learn some system calls about signals.
