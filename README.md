@@ -21,14 +21,14 @@ You **DON'T** have to change any code in `main.c` :) But for you to understand t
 Please view the file for features you need to implement.
 
 ## 4. threefunctions.c
-0. FunctionName are defined as BlackholeNumber, BinarySearch, FibonacciSequence.
+0. FunctionName refers to BlackholeNumber, BinarySearch,or FibonacciSequence.
 1. Functions are all in the form mentioned below. (So you should write your function by adding code at comment segements only.)
 2. Functions should atleast print an outputline during its timeslice.
 3. Functions will only context switch at the end of each iteration.
 4. Functions will teriminate on two condition: maxiter exceeded or produced required output.  
 5. The output of each iteration and the required output of each function are:  
 `BlackholeNumber()` : start from initial value, update the value by URL mentioned below then print. The required output is 495.  
-                 (https://zh.wikipedia.org/wiki/黑洞數)  
+                      (https://zh.wikipedia.org/wiki/黑洞數)  
 `BinarySearch()` : start from 50, conduct binary search between range(0,100). You only have to do one step of binary search in each iteration. The required output is the initial value send to this function.  
 `FibonacciSequence()` : print one entry of the Fibonacci Sequence (1,2,3,5,8,13,...) in each iteration. There's no required output for this function.  
 ```
@@ -57,7 +57,7 @@ printf("FunctionName: %d\n", your_output);
 ```
 
 ## 5. Execution
-
+This homework will only be executed by following command:
 ```
 $ ./main {bi_init} {bi_maxiter} {bl_init} {bl_maxiter} {fi_init} {fi_maxiter} {timeslice} {switchmode}
 ```
@@ -97,10 +97,10 @@ Your assignment should be submitted to github before deadline. The submisstion s
 Your repository may contain other files, but TA will **ONLY** score your homework based on two files mentioned above, please make sure you correctly named your code.
 
 ## 8. Reminder
-1. Plagiarism is **STRICTLY** prohibited.
-3. Your credits will be deducted 10% for each day delay. A late submission is better than absence.
-4. If you have any question, feel free to contact us via email ntucsiesp@gmail.com or come during TA hours.
-5. Please start your work as soon as possible, **DON'T** leave it until the last day!
+0. Plagiarism is **STRICTLY** prohibited.
+1. Your credits will be deducted 10% for each day delay. A late submission is better than absence.
+2. If you have any question, feel free to contact us via email ntucsiesp@gmail.com or come during TA hours.
+3. Please start your work as soon as possible, **DON'T** leave it until the last day!
 
 
 
