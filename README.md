@@ -1,4 +1,4 @@
-# System Programming 2020: BabyThread
+# System Programming 2020: ZaThread
 ## 0. The Goal
 0. Understand and simulate the concept of context switch.
 1. Understand and learn some system calls about signals.
