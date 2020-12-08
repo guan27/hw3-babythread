@@ -177,6 +177,7 @@ Note: ^Z is where `SIGTSTP` delivered to process, it is not output by process it
 3. (2 pt)Your `threefunctions.c` works correctly.
 4. (1 pt)Your `threadutils.h`, `scheduler.c` and `threefunctions.c` work fine together.  
 
+For all tasks, your code will be run on CSIE workstation.  
 For all tasks, your code will be complied by `MakeFile` in this repostiory.  
 - In 1. 2. 3., your `threadutils.h` and `scheduler.c` will complied with TA's `main.c` and `threefunctions.c`.
 - In 4., your `threefunctions.c` will complied with TA's `main.c` and `threadutils.h` and `scheduler.c`.
