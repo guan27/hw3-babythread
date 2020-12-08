@@ -86,7 +86,7 @@ sample execution
 
 For all tasks, your code will be complied by `MakeFile` in this repostiory.  
 - In 1. 2. 3., your `babythread.h` and `utils.c` will complied with TA's `main.c` and `threefunctions.c`.
-- In 4., your `threefunction.c` will complied with TA's `main.c` and `babythread.h` and `utils.c`.
+- In 4., your `threefunctions.c` will complied with TA's `main.c` and `babythread.h` and `utils.c`.
 - In 5., your `babythread.h`, `utils.c` and `threefunctions.c` will be compiled with TA's `main.c`.
 - TA's `threefunctions.c` is pre-compiled as `threefunctions.o` in this repository, use it well.
 
@@ -95,7 +95,7 @@ Each line in `testdata.txt` is a command line input in the form states in **5. E
 FYI there will be no private dataset in this homework, so all your grading will be based on `testdata.txt`.
 
 ## 9. Submission
-Your assignment should be submitted to github before deadline. The submisstion should only include two files:
+Your assignment should be submitted to github before deadline. The submisstion should atleast include three files:
 0. `babythread.h`
 1. `utils.c`
 2. `threefunctions.c`  
