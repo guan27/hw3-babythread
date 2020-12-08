@@ -8,12 +8,10 @@
 ## 1. Problem Description
 In this assignment, you need to simulate a user-thread library by using `longjmp()`, `setjmp()`, etc. For simplicity, we use a function to represent a thread. In other words, you'll have to "context switch" between functions. To do this, you need to do non-local jumps between functions, which is arranged by a `scheduler()`: each time a function needs to "context switch" to another, it needs to jump back to `scheduler()`, and `scheduler()` will schedule next function to be executed, thus jump to it. Since non-local jump won't store local variables, we define a data structure for each function to store data needed for computing, which is called `TCB_NODE`. All the `TCB_NODE`s will formulate a circular linked-list. As `scheduler()` schedules functions, it also needs to make sure `Current` pointer points to correct `TCB_NODE` for functions to output correct result.
 
-The "context switch" mentioned above may occur in two different scenarios:
+The "context switch" mentioned above may occur in two different scenarios (We'll introduce the way to choose between them in **4. scheduler.c** and **6. Execution**.):
 
 0. After each iteration
 1. Signal caught, timeslice reached
-
-We'll introduce the way to choose between different scenarios in **4. scheduler.c** and **6. Execution**. 
 
 
 You are expected to complete the following tasks:
@@ -31,15 +29,19 @@ You **DON'T** have to change any code in `main.c` :) But for you to understand t
 ## 4. scheduler.c
 You need to implement `sighandler()` and `scheduler()` in `scheduler.c`, where `sighandler()` is "the sighandler" required in `sigaction()` system call and `scheduler()` is introduced in **1. Problem Description**. For more information, please check the comments in `scheduler.c`.  
 
-Here we introduce the rule of context switch in detail:
+Here we introduce the rule of "context switch" in detail:
 
-0. 
+0. "Context switch" means that function jumps back to `scheduler()`, `scheduler()` schedules next function in the circular linked-list to be executed. 
+1. If you're doing "context switch" after each iteration, you shuold change the function you're executing at the end of each iteration.
+2. If you're doing "context switch" on signal caught or timeslice reached, you should check pending signals at the end of each iteration. Once you have pending signal(s) you should do "context switch".
+3. Timeslice is set by `alarm(t)` where `t` is the timeslice length.
+4. If multiple signals is pending after one iteration, "context switch" should execute based on `SIGTSTP` first. 
 
 ## 5. threefunctions.c
 0. FunctionName refers to BlackholeNumber, BinarySearch,or FibonacciSequence.
 1. Functions are all in the form mentioned below. (So you should write your function by adding code at comment segements only.)
 2. Functions should atleast print an outputline during its timeslice.
-3. Functions will only context switch at the end of each iteration.
+3. Functions will only "context switch" at the end of each iteration.
 4. Functions will teriminate on two condition: maxiter exceeded or produced required output.  
 5. The output of each iteration and the required output of each function are:  
 `BlackholeNumber()` : start from initial value(100-999), update the value by URL mentioned below then print. The required output is 495.  
@@ -87,7 +89,9 @@ fi_maxiter = The max iteration for FibonacciSequence to process
 timeslice = time limit for a function to process until next "context switch"
 switchmode = 0 for "context switch" after each iteration; 1 for "context switch" due to signal caught and timeslice reached
 ```
-sample execution
+Sample execution
+```
+```
 
 ## 7. Grading
 0. (1 pt)Your `threadutils.h` and `scheduler.c` supports context switch after each iteration.
@@ -100,7 +104,7 @@ For all tasks, your code will be complied by `MakeFile` in this repostiory.
 - In 1. 2. 3., your `threadutils.h` and `scheduler.c` will complied with TA's `main.c` and `threefunctions.c`.
 - In 4., your `threefunctions.c` will complied with TA's `main.c` and `threadutils.h` and `scheduler.c`.
 - In 5., your `threadutils.h`, `scheduler.c` and `threefunctions.c` will be compiled with TA's `main.c`.
-- TA's `threefunctions.c` is pre-compiled as `threefunctions.o` in this repository, use it well.
+- TA's `threefunctions.c` is pre-compiled as `threefunctions.o` in this repository, use it well. **BUT**, this **DOESN'T** imply that you will get full credit of 0. 1. 2. if you works fine with TA's `threefunctions.o`. (why?)
 
 ## 8. testdata.txt
 Each line in `testdata.txt` is a command line input in the form states in **6. Execution**.
