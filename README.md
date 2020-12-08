@@ -18,7 +18,7 @@ You are expected to complete the following tasks:
 You **DON'T** have to change any code in `main.c` :) But for you to understand the program's workflow, we provided the source code of `main.c`. You should done all your homework **WITHOUT** changing any variables or insert any code segement in `main.c`.
 
 ## 3. threadutils.h
-`threadutils.h` defines the structure of `TCB_NODE`, and all the global variables you needed for implementing `scheduler.c` and `threefunctions.c`, but `threadutils.h` is lack of some macro's implementation. You job is to finish them. For more information, please check the comments in `threadutils.h`.
+`threadutils.h` defines the structure of `TCB_NODE`, and all the global variables you needed for `scheduler.c` and `threefunctions.c`, but `threadutils.h` lacks the implementation of some macro functions. Your job is to finish them. For more information, please check the comments in `threadutils.h`.
 
 ## 4. scheduler.c
 You need to implement `sighandler()` and `scheduler()` in `scheduler.c`, where `sighandler()` is "the sighandler" required in `sigaction()` system call and `scheduler()` is introduced in **1. Problem Description**. For more information, please check the comments in `scheduler.c`.  
