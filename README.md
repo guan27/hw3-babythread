@@ -31,7 +31,7 @@ Here we introduce the rule of "context switch" in detail:
 	- Signal caught(only consider `SIGTSTP`), timeslice reached
 2. If you're doing "context switch" after each iteration, you should change the function you're executing at the end of each iteration.
 3. If you're doing "context switch" on signal caught or timeslice reached, you should check pending signals at the end of each iteration. Once you get pending signal(s) you should do "context switch".
-4. Timeslice is the time function can execute between "context switch", which is set by `alarm()` system call.
+4. Timeslice is the time that a function can execute between "context switch", which is implemented by `alarm()` system call.
 5. If multiple signals are pending after one iteration, your program should send `SIGTSTP` first. 
 
 ## 5. threefunctions.c
@@ -39,12 +39,12 @@ Here we introduce the rule of "context switch" in detail:
 1. Functions are all in the form mentioned below. (So you should write your function by adding code at comment segements only.)
 2. Functions should at least print an output line during its timeslice.
 3. Functions will only "context switch" at the end of each iteration.
-4. Functions will terminate on `maxiter` exceeded or stop condition occurs.  
+4. Functions will terminate on `maxiter` exceeded or stop condition occurred.  
 5. The output of each iteration and the stop conditions are:  
 `BlackholeNumber()` : start from `init`(100-999), update the value by the alogrithm mentioned in the URL below and then print. The function stops when the output is 495.  
                       (https://zh.wikipedia.org/wiki/黑洞數)  
-`BinarySearch()` : start from 50, conduct binary search between range(0,100) to find `init` of this function. You only have to do one step of binary search in each iteration. The function stops when the output is `init`.  
-`FibonacciSequence()` : print one entry of the Fibonacci Sequence (1,2,3,5,8,13,...) in each iteration. There's no required output for this function.  
+`BinarySearch()` : conduct binary search between range(0,100) to find `init` of this function. You only have to do one step of binary search in each iteration. The function stops when the output is `init`.  
+`FibonacciSequence()` : print one entry of the Fibonacci Sequence (1,2,3,5,8,13,...) in each iteration. There's no stopping condition for this function.  
 ```
 void FunctionName(int thread_id, int init, int maxiter)
 {
@@ -71,7 +71,7 @@ printf("FunctionName: %d\n", your_output);
 ```
 
 ## 6. Execution
-This homework will only be executed by following command:
+This homework will only be executed by the following command:
 ```
 $ ./main {bi_init} {bi_maxiter} {bl_init} {bl_maxiter} {fi_init} {fi_maxiter} {timeslice} {switchmode}
 ```
@@ -104,15 +104,15 @@ For all tasks, your code will be complied by `MakeFile` in this repostiory.
 - TA's `threefunctions.c` is pre-compiled as `threefunctions.o` in this repository, use it well. **BUT**, this **DOESN'T** imply that you will get full credit of 0. 1. 2. if your code works fine with TA's `threefunctions.o`. (why?)
 
 ## 8. testdata.txt
-Each line in `testdata.txt` is a command line input in the form states in **6. Execution**.
-FYI there will be no private dataset in this homework, so all your grading will be based on `testdata.txt`.
+Each line in `testdata.txt` is a command line input in the form stated in **6. Execution**.
+FYI there will be no private dataset in this homework, so all your gradings will be based on `testdata.txt`.
 
 ## 9. Submission
-Your assignment should be submitted to github before deadline. The submisstion should at least include three files:
+Your assignment should be submitted to github before deadline. The submission should include three files:
 0. `threadutils.h`
 1. `scheduler.c`
 2. `threefunctions.c`  
-Your repository may contain other files, but TA will **ONLY** score your homework based on three files mentioned above, please make sure that you correctly named your code.
+Your repository may contain other files, but TA will **ONLY** score your homework based on three files mentioned above, please make sure that you named your files correctly.
 
 ## 10. Reminder
 0. Plagiarism is **STRICTLY** prohibited.
