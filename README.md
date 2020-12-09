@@ -142,27 +142,26 @@ sample execution 3
 ```
 $ ./main 55 10 712 10 1 10 3 1
 BinarySearch: 50
-BinarySearch: 75
-BinarySearch: 62
-^ZTSTP signal!
+^ZBinarySearch: 75
+TSTP signal!
 BlackholeNumber: 495
 FibonacciSequence: 1
 ALRM signal!
+BinarySearch: 62
 BinarySearch: 56
 BinarySearch: 53
-BinarySearch: 54
 ALRM signal!
 FibonacciSequence: 2
-^ZTSTP signal!
-BinarySearch: 55
 FibonacciSequence: 3
+^ZFibonacciSequence: 5
+TSTP signal!
+BinarySearch: 54
 ALRM signal!
-FibonacciSequence: 5
 FibonacciSequence: 8
-^ZTSTP signal!
 FibonacciSequence: 13
-ALRM signal!
 FibonacciSequence: 21
+ALRM signal!
+BinarySearch: 55
 FibonacciSequence: 34
 FibonacciSequence: 55
 ALRM signal!
