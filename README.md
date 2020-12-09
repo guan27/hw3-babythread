@@ -93,18 +93,16 @@ $ ./main 27 10 127 10 1 10 3 0
 BinarySearch: 50
 BlackholeNumber: 594
 FibonacciSequence: 1
-BinarySearch: 25
+BinarySearch: 24
 BlackholeNumber: 495
 FibonacciSequence: 2
 BinarySearch: 37
 FibonacciSequence: 3
-BinarySearch: 31
+BinarySearch: 30
 FibonacciSequence: 5
-BinarySearch: 28
-FibonacciSequence: 8
-BinarySearch: 26
-FibonacciSequence: 13
 BinarySearch: 27
+FibonacciSequence: 8
+FibonacciSequence: 13
 FibonacciSequence: 21
 FibonacciSequence: 34
 FibonacciSequence: 55
@@ -185,7 +183,8 @@ For all tasks, your code will be complied by `MakeFile` in this repostiory.
 
 ## 8. testdata.txt
 Each line in `testdata.txt` is a command line input in the form stated in **6. Execution**.
-FYI there will be no private dataset in this homework, so all your gradings will be based on `testdata.txt`.
+FYI there will be no private dataset in this homework, so all your gradings will be based on `testdata.txt`.  
+`testdata.txt` will realease a week later.
 
 ## 9. Submission
 Your assignment should be submitted to github before deadline. The submission should include three files:
